@@ -2,45 +2,50 @@
 
 A modern, full-featured cinema booking application built with Spring Boot 3, Thymeleaf, and MySQL. CineBook provides a complete solution for managing movie theaters, showtimes, user bookings, and cinema administration.
 
+**Repository**: [https://github.com/BARAD-IDRISH/CineBook](https://github.com/BARAD-IDRISH/CineBook)
+
 ## 🎬 Features
 
 ### For Users
 - **Movie Browsing**: Browse available movies with detailed information and categories
 - **Cinema Locations**: View all available cinema locations with details
-- **Advanced Booking**: Book movie tickets with seat selection
+- **Advanced Booking**: Book movie tickets with seat selection and visual seat grid
 - **Payment Processing**: Secure payment integration for ticket purchases
 - **QR Code Check-in**: Generate and scan QR codes for entry verification
 - **User Dashboard**: Manage bookings and view booking history
 - **Profile Management**: Update user account information
+- **Invitation Emails**: Receive reservation details and QR codes via email
 
 ### For Administrators
 - **Dashboard**: Overview of all system activities and statistics
-- **Movie Management**: Add, edit, and manage movies
+- **Movie Management**: Add, edit, and manage movies with poster uploads
 - **Cinema Management**: Manage cinema locations and details
 - **Screen Management**: Configure cinema screens and seating arrangements
 - **Showtime Management**: Create and manage movie showtimes
 - **Reservation Management**: View and manage all user reservations
-- **User Management**: Manage user accounts and roles
+- **User Management**: Manage user accounts, roles, and permissions
 - **Account Management**: Administrative account settings
 
 ### Core Features
 - **User Authentication**: Secure login and registration system
-- **Role-Based Access Control**: Separate admin and user roles
+- **Role-Based Access Control**: Superadmin, Admin, and Guest roles
 - **Database Persistence**: MySQL database for reliable data storage
 - **File Uploads**: Support for movie posters, user profile pictures, and QR codes
 - **Responsive Design**: Mobile-friendly user interface
-- **Email Integration**: Email notifications and confirmations
+- **Email Integration**: Email notifications with invitation links and QR codes
+- **QR Code Generation**: Automatic QR code creation for check-ins using ZXing
 
 ## 🛠️ Tech Stack
 
 - **Framework**: Spring Boot 3.3.2
-- **Template Engine**: Thymeleaf
+- **Template Engine**: Thymeleaf (server-rendered HTML/CSS/JS)
 - **Database**: MySQL 8.0+
 - **ORM**: Spring Data JPA / Hibernate
 - **Security**: Spring Security
 - **Build Tool**: Maven
 - **Java Version**: JDK 17
-- **QR Code**: Google Zxing Library
+- **QR Code Generation**: Google Zxing Library (core & javase)
+- **Email**: Spring Boot Mail Starter
 
 ### Key Dependencies
 - Spring Boot Starter Web
@@ -187,6 +192,15 @@ Initial admin account (configure in `DataInitializer.java`):
 - `GET /payment` - Payment page
 - `GET /checkin` - Check-in page
 
+## 🔑 Seed Users
+
+Default users available for testing (configure in `DataInitializer.java`):
+- **Superadmin**: `superadmin` / `password123` - Full system access
+- **Admin**: `admin` / `password123` - Admin panel access
+- **Guest**: `guest` / `password123` - Limited guest access
+
+*Note: Change these credentials before deploying to production*
+
 ## 🔧 Configuration
 
 ### Application Properties
@@ -210,6 +224,30 @@ spring.thymeleaf.mode=HTML
 spring.thymeleaf.cache=false
 ```
 
+### Mail Configuration (Required for Invitations)
+
+Email functionality is essential for sending reservation invitations with QR codes and check-in links. Set the following environment variables before running:
+
+**Required:**
+- `MAIL_USERNAME` - Email account username
+- `MAIL_PASSWORD` - Email account password
+
+**Optional:**
+- `MAIL_HOST` - SMTP host (default: smtp.gmail.com)
+- `MAIL_PORT` - SMTP port (default: 587)
+- `MAIL_FROM` - Sender email address
+- `APP_BASE_URL` - Application base URL for check-in links
+
+**Example using Gmail:**
+```bash
+set MAIL_USERNAME=your-email@gmail.com
+set MAIL_PASSWORD=your-app-password
+set MAIL_FROM=noreply@cinebook.com
+set APP_BASE_URL=http://localhost:8080
+```
+
+*Note: For Gmail, use an App Password, not your regular password. Enable 2FA and generate an App Password in Google Account settings.*
+
 ## 🧪 Testing
 
 Run tests with Maven:
@@ -219,7 +257,7 @@ mvn test
 
 ## 📦 Building for Production
 
-Create a production-ready WAR file:
+Create a production-ready JAR file:
 ```bash
 mvn clean package -DskipTests
 ```
