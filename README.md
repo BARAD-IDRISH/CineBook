@@ -310,7 +310,7 @@ This project is open source and available under the MIT License.
 
 **BARAD IDRISH**
 - GitHub: [@BARAD-IDRISH](https://github.com/BARAD-IDRISH)
-- Email: contact@example.com
+- Email: baradidrish@38gmail.com
 
 ## 🤝 Support
 
@@ -326,3 +326,4 @@ For support, email support@cinebook.com or open an issue on the GitHub repositor
 ---
 
 **CineBook** - Making Movie Booking Simple and Seamless! 🎟️
+
