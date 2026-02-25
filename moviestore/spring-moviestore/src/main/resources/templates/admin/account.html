@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin | Account</title>
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+<div th:replace="~{fragments/header :: siteHeader}"></div>
+<main class="container narrow">
+  <h1>Admin Account</h1>
+  <div class="card">
+    <p><strong>Name:</strong> <span th:text="${user.name}"></span></p>
+    <p><strong>Username:</strong> <span th:text="${user.username}"></span></p>
+    <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
+    <p><strong>Phone:</strong> <span th:text="${user.phone}"></span></p>
+    <p><strong>Role:</strong> <span th:text="${user.role}"></span></p>
+    <img th:if="${user.imageUrl}" th:src="${user.imageUrl}" alt="profile" class="hero-poster"/>
+  </div>
+  <p>
+    <a class="btn" href="/admin/dashboard">Back to Dashboard</a>
+  </p>
+</main>
+<div th:replace="~{fragments/footer :: siteFooter}"></div>
+</body>
+</html>

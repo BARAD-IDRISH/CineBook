@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MovieStore | My Dashboard</title>
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+<div th:replace="~{fragments/header :: siteHeader}"></div>
+<main class="container">
+  <h1>My Dashboard</h1>
+
+  <section class="card">
+    <h2>Profile Image</h2>
+    <form method="post" action="/profile/image" enctype="multipart/form-data" class="inline-form">
+      <input type="file" name="file" accept="image/*" required>
+      <button class="btn" type="submit">Upload</button>
+    </form>
+    <div class="alert success" th:if="${param.profileUpdated}">Profile image updated.</div>
+    <div class="alert success" th:if="${param.invite}">Invitations sent successfully.</div>
+    <div class="alert error" th:if="${param.inviteError}">Invitation failed: <span th:text="${param.inviteError}"></span></div>
+  </section>
+
+  <h2>My Reservations</h2>
+  <div class="alert success" th:if="${param.reserved}">Reservation completed successfully.</div>
+  <div class="alert success" th:if="${param.payment}">Payment confirmed successfully.</div>
+  <div class="alert error" th:if="${param.paymentError}">Payment error: <span th:text="${param.paymentError}"></span></div>
+  <div class="alert success" th:if="${param.checkin}">Check-in marked successfully.</div>
+  <table class="table">
+    <thead>
+    <tr><th>ID</th><th>Movie</th><th>Cinema</th><th>Screen</th><th>Date</th><th>Time</th><th>Seats</th><th>Total</th><th>Paid</th><th>QR</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+    <tr th:each="reservation : ${reservations}">
+      <td th:text="${reservation.id}"></td>
+      <td th:text="${reservation.movie.title}"></td>
+      <td th:text="${reservation.cinema.name}"></td>
+      <td th:text="${reservation.screen != null ? reservation.screen.name : 'TBA'}"></td>
+      <td th:text="${reservation.date}"></td>
+      <td th:text="${reservation.startAt}"></td>
+      <td th:text="${reservation.seatLabels}"></td>
+      <td th:text="${reservation.total}"></td>
+      <td th:text="${reservation.paid ? 'Yes' : 'No'}"></td>
+      <td>
+        <a th:if="${reservation.qrCodePath}"
+           th:href="${reservation.qrCodePath}"
+           target="_blank"
+           class="btn secondary">Open QR Image</a>
+        <span th:unless="${reservation.qrCodePath}">Not available</span>
+      </td>
+      <td>
+        <p>
+          <a class="btn secondary" th:href="@{/checkin/{id}(id=${reservation.id})}" target="_blank">Open Check-in Link</a>
+        </p>
+        <form method="post" th:action="@{/reservations/{id}/invite(id=${reservation.id})}" class="invite-form">
+          <input type="text" name="emails" placeholder="friend1@mail.com, friend2@mail.com" required>
+          <button class="btn" type="submit">Send Invitation</button>
+        </form>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</main>
+<div th:replace="~{fragments/footer :: siteFooter}"></div>
+</body>
+</html>
+
+

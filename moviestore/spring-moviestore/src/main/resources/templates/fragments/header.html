@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<header th:fragment="siteHeader" class="site-header">
+  <div class="container nav-row">
+    <a href="/" class="brand">CineBook</a>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/movies/category/nowShowing">Now Showing</a>
+      <a href="/movies/category/comingSoon">Coming Soon</a>
+      <a href="/cinemas">Cinemas</a>
+      <a href="/mydashboard" th:if="${currentUser != null}">My Dashboard</a>
+      <a href="/admin/dashboard" th:if="${isAdmin}">Admin</a>
+      <a href="/login" th:if="${currentUser == null}">Login</a>
+      <a href="/register" th:if="${currentUser == null}">Register</a>
+      <span th:if="${currentUser != null}" class="user-chip">
+        <img th:if="${currentUser.imageUrl}" th:src="${currentUser.imageUrl}" alt="avatar" class="avatar"/>
+        <span th:text="${currentUser.username}">user</span>
+      </span>
+      <form th:if="${currentUser != null}" method="post" action="/logout" class="inline-form">
+        <button type="submit" class="link-button">Logout</button>
+      </form>
+    </nav>
+  </div>
+</header>
+</body>
+</html>
+
+

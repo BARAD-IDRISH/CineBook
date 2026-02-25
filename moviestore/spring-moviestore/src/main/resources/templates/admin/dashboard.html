@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+<div th:replace="~{fragments/header :: siteHeader}"></div>
+<main class="container">
+  <h1>Admin Dashboard</h1>
+  <div class="grid stats">
+    <div class="stat"><h3>Users</h3><p th:text="${users}"></p></div>
+    <div class="stat"><h3>Movies</h3><p th:text="${movies}"></p></div>
+    <div class="stat"><h3>Cinemas</h3><p th:text="${cinemas}"></p></div>
+    <div class="stat"><h3>Screens</h3><p th:text="${screens}"></p></div>
+    <div class="stat"><h3>Reservations</h3><p th:text="${reservations}"></p></div>
+  </div>
+  <div class="admin-links">
+    <a class="btn" href="/admin/movies">Movies</a>
+    <a class="btn" href="/admin/cinemas">Cinemas</a>
+    <a class="btn" href="/admin/screens">Screens</a>
+    <a class="btn" href="/admin/showtimes">Showtimes</a>
+    <a class="btn" href="/admin/reservations">Reservations</a>
+    <a class="btn" href="/admin/account">Account</a>
+    <a class="btn" href="/admin/users" th:if="${isSuperadmin}">Users</a>
+  </div>
+</main>
+<div th:replace="~{fragments/footer :: siteFooter}"></div>
+</body>
+</html>

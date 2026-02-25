@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Admin Users</title><link rel="stylesheet" href="/css/app.css"></head>
+<body>
+<div th:replace="~{fragments/header :: siteHeader}"></div>
+<main class="container">
+  <h1>Users (Superadmin)</h1>
+  <table class="table"><thead><tr><th>Name</th><th>Username</th><th>Email</th><th>Role</th><th>Change role</th></tr></thead><tbody>
+  <tr th:each="u : ${users}">
+    <td th:text="${u.name}"></td><td th:text="${u.username}"></td><td th:text="${u.email}"></td><td th:text="${u.role}"></td>
+    <td>
+      <form method="post" th:action="@{/admin/users/{id}/role(id=${u.id})}" class="inline-form">
+        <select name="role">
+          <option value="GUEST">GUEST</option>
+          <option value="ADMIN">ADMIN</option>
+          <option value="SUPERADMIN">SUPERADMIN</option>
+        </select>
+        <button class="btn" type="submit">Update</button>
+      </form>
+    </td>
+  </tr>
+  </tbody></table>
+</main>
+<div th:replace="~{fragments/footer :: siteFooter}"></div>
+</body>
+</html>

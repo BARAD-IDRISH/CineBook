@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MovieStore | Payment</title>
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+<div th:replace="~{fragments/header :: siteHeader}"></div>
+<main class="container narrow">
+  <h1>Payment (Demo)</h1>
+  <p class="text-muted">This is a demo payment page. No real transaction is processed.</p>
+
+  <section class="card">
+    <h2>Reservation Summary</h2>
+    <p><strong>Movie:</strong> <span th:text="${reservation.movie.title}"></span></p>
+    <p><strong>Cinema:</strong> <span th:text="${reservation.cinema.name}"></span></p>
+    <p><strong>Screen:</strong> <span th:text="${reservation.screen != null ? reservation.screen.name : 'TBA'}"></span></p>
+    <p><strong>Date/Time:</strong> <span th:text="${reservation.date}"></span> <span th:text="${reservation.startAt}"></span></p>
+    <p><strong>Seats:</strong> <span th:text="${reservation.seatLabels}"></span></p>
+    <p><strong>Total:</strong> <span th:text="${reservation.total}"></span></p>
+  </section>
+
+  <form method="post" th:action="@{/payment/{id}/confirm(id=${reservation.id})}" class="form">
+    <label>Card Number
+      <input type="text" placeholder="4242 4242 4242 4242" required inputmode="numeric" autocomplete="cc-number">
+        <!----     pattern="\\d{13,19}" maxlength="19" title="Enter 13 to 19 digits (numbers only)"-->
+    </label>
+    <label>Name on Card
+      <input type="text" placeholder="John Doe" required autocomplete="cc-name" maxlength="50">
+      <!----      pattern="[A-Za-z][A-Za-z\\s.'-]{1,49}" title="Enter the name on the card"-->
+    </label>
+    <div class="grid-2">
+      <label>Expiry
+        <input type="text" placeholder="MM/YY" required inputmode="numeric" autocomplete="cc-exp">
+               <!--pattern="(0[1-9]|1[0-2])\\/\\d{2}" maxlength="5" title="MM/YY"-->
+      </label>
+      <label>CVV
+        <input type="password" placeholder="123" required inputmode="numeric" autocomplete="cc-csc">
+              <!-- pattern="\\d{3,4}" maxlength="4" title="3 or 4 digits"-->
+      </label>
+    </div>
+    <button class="btn" type="submit">Pay & Confirm</button>
+  </form>
+</main>
+<div th:replace="~{fragments/footer :: siteFooter}"></div>
+</body>
+</html>

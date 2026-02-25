@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MovieStore | Register</title>
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+<div th:replace="~{fragments/header :: siteHeader}"></div>
+<main class="container narrow">
+  <h1>Create account</h1>
+  <div class="alert error" th:if="${error}" th:text="${error}"></div>
+  <form method="post" action="/register" th:object="${form}" class="form">
+    <label>Name
+      <input type="text" th:field="*{name}" required minlength="2" maxlength="80"
+             pattern="[A-Za-z][A-Za-z\\s.'-]{1,79}" title="Enter a valid name (letters, spaces, . ' -)">
+    </label>
+    <label>Username
+      <input type="text" th:field="*{username}" required minlength="3" maxlength="30"
+             pattern="[A-Za-z0-9_]{3,30}" title="3-30 characters: letters, numbers, underscore">
+    </label>
+    <label>Email
+      <input type="email" th:field="*{email}" required>
+    </label>
+    <label>Phone
+      <input type="tel" th:field="*{phone}" required inputmode="tel"
+             pattern="\\+?[0-9\\s-]{7,20}" title="Enter a valid phone number">
+    </label>
+    <label>Password
+      <input type="password" th:field="*{password}" minlength="8" required
+             pattern="(?=.*[A-Za-z])(?=.*\\d).{8,}"
+             title="At least 8 characters, include letters and numbers">
+    </label>
+    <button class="btn" type="submit">Register</button>
+  </form>
+</main>
+<div th:replace="~{fragments/footer :: siteFooter}"></div>
+</body>
+</html>
+
+

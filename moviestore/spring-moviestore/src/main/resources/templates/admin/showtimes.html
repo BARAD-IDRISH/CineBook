@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Admin Showtimes</title><link rel="stylesheet" href="/css/app.css"></head>
+<body>
+<div th:replace="~{fragments/header :: siteHeader}"></div>
+<main class="container">
+  <h1>Showtimes</h1>
+  <div th:if="${error}" class="alert error">
+    <span th:text="${error}"></span>
+  </div>
+  <form method="post" action="/admin/showtimes" class="form grid-2">
+    <select name="movieId" required>
+      <option value="">Movie</option>
+      <option th:each="m : ${movies}" th:value="${m.id}" th:text="${m.title}"></option>
+    </select>
+    <select name="cinemaId" required>
+      <option value="">Cinema</option>
+      <option th:each="c : ${cinemas}" th:value="${c.id}" th:text="${c.name}"></option>
+    </select>
+    <select name="screenId" required>
+      <option value="">Screen</option>
+      <option th:each="s : ${screens}"
+              th:value="${s.id}"
+              th:text="${s.cinema.name + ' - ' + s.name}"></option>
+    </select>
+    <input type="time" name="startAt" required>
+    <input type="date" name="startDate" required>
+    <input type="date" name="endDate" required>
+    <input type="number" name="ticketPrice" step="0.01" placeholder="Ticket price" required>
+    <button class="btn" type="submit">Add Showtime</button>
+  </form>
+  <table class="table"><thead><tr><th>Movie</th><th>Cinema</th><th>Screen</th><th>Time</th><th>Range</th><th>Price</th><th></th></tr></thead><tbody>
+  <tr th:each="s : ${showtimes}">
+    <td th:text="${s.movie.title}"></td><td th:text="${s.cinema.name}"></td><td th:text="${s.screen != null ? s.screen.name : 'TBA'}"></td><td th:text="${s.startAt}"></td>
+    <td><span th:text="${s.startDate}"></span> - <span th:text="${s.endDate}"></span></td>
+    <td th:text="${s.ticketPrice}"></td>
+    <td><form method="post" th:action="@{/admin/showtimes/{id}/delete(id=${s.id})}"><button class="btn danger" type="submit">Delete</button></form></td>
+  </tr>
+  </tbody></table>
+</main>
+<div th:replace="~{fragments/footer :: siteFooter}"></div>
+</body>
+</html>

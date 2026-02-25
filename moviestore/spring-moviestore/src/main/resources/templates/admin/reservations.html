@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Admin Reservations</title><link rel="stylesheet" href="/css/app.css"></head>
+<body>
+<div th:replace="~{fragments/header :: siteHeader}"></div>
+<main class="container">
+  <h1>Reservations</h1>
+  <table class="table"><thead><tr><th>ID</th><th>User</th><th>Movie</th><th>Cinema</th><th>Screen</th><th>Date</th><th>Seats</th><th>Total</th><th>Paid</th><th></th></tr></thead><tbody>
+  <tr th:each="r : ${reservations}">
+    <td th:text="${r.id}"></td><td th:text="${r.username}"></td><td th:text="${r.movie.title}"></td><td th:text="${r.cinema.name}"></td>
+    <td th:text="${r.screen != null ? r.screen.name : 'TBA'}"></td>
+    <td th:text="${r.date + ' ' + r.startAt}"></td><td th:text="${r.seatLabels}"></td><td th:text="${r.total}"></td>
+    <td th:text="${r.paid ? 'Yes' : 'No'}"></td>
+    <td><form method="post" th:action="@{/admin/reservations/{id}/delete(id=${r.id})}"><button class="btn danger" type="submit">Delete</button></form></td>
+  </tr>
+  </tbody></table>
+</main>
+<div th:replace="~{fragments/footer :: siteFooter}"></div>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Check-in</title>
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+<div th:replace="~{fragments/header :: siteHeader}"></div>
+<main class="container narrow">
+  <h1>Check-in Completed</h1>
+  <p><strong>Reservation:</strong> <span th:text="${reservation.id}"></span></p>
+  <p><strong>User:</strong> <span th:text="${reservation.username}"></span></p>
+  <p><strong>Movie:</strong> <span th:text="${reservation.movie.title}"></span></p>
+  <p><strong>Cinema:</strong> <span th:text="${reservation.cinema.name}"></span></p>
+  <p><strong>Screen:</strong> <span th:text="${reservation.screen != null ? reservation.screen.name : 'TBA'}"></span></p>
+  <p><strong>Date/Time:</strong> <span th:text="${reservation.date}"></span> <span th:text="${reservation.startAt}"></span></p>
+</main>
+<div th:replace="~{fragments/footer :: siteFooter}"></div>
+</body>
+</html>
+

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MovieStore | Movie</title>
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+<div th:replace="~{fragments/header :: siteHeader}"></div>
+<main class="container">
+  <h1 th:text="${movie.title}">Movie</h1>
+  <img th:if="${movie.image}" th:src="${movie.image}" alt="poster" class="hero-poster"/>
+  <p th:text="${movie.description}"></p>
+  <p><strong>Director:</strong> <span th:text="${movie.director}"></span></p>
+  <p><strong>Cast:</strong> <span th:text="${movie.cast}"></span></p>
+  <p><strong>Duration:</strong> <span th:text="${movie.duration}"></span> mins</p>
+
+  <h2>Showtimes</h2>
+  <p class="text-muted" th:if="${warning}" th:text="${warning}"></p>
+  <p th:if="${#lists.isEmpty(showtimes)}">No showtimes available right now.</p>
+  <table class="table">
+    <thead>
+    <tr><th>Cinema</th><th>Screen</th><th>Time</th><th>Date range</th><th>Price</th><th></th></tr>
+    </thead>
+    <tbody th:unless="${#lists.isEmpty(showtimes)}">
+    <tr th:each="showtime : ${showtimes}">
+      <td th:text="${showtime.cinema != null ? showtime.cinema.name : 'TBA'}"></td>
+      <td th:text="${showtime.screen != null ? showtime.screen.name : 'TBA'}"></td>
+      <td th:text="${showtime.startAt}"></td>
+      <td><span th:text="${showtime.startDate}"></span> - <span th:text="${showtime.endDate}"></span></td>
+      <td th:text="${showtime.ticketPrice != null ? showtime.ticketPrice : 'TBA'}"></td>
+      <td><a class="btn" th:href="@{/book/{movieId}(movieId=${movie.id})}">Book</a></td>
+    </tr>
+    </tbody>
+  </table>
+</main>
+<div th:replace="~{fragments/footer :: siteFooter}"></div>
+</body>
+</html>
+
+

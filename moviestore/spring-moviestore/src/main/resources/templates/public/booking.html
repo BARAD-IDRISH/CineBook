@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MovieStore | Booking</title>
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+<div th:replace="~{fragments/header :: siteHeader}"></div>
+<main class="container booking-page" th:attr="data-seat-api=@{/book/seats}">
+  <h1>Book: <span th:text="${movie.title}"></span></h1>
+  <div class="alert error" th:if="${param.loginRequired}">Please login first, then book your seats.</div>
+  <div class="alert error" th:if="${error}" th:text="${error}"></div>
+  <div class="alert error" th:if="${param.bookingError}" th:text="${param.bookingError}"></div>
+
+  <form method="post" action="/book" class="form" id="bookingForm">
+    <input type="hidden" name="movieId" th:value="${movie.id}">
+    <input type="hidden" name="seatLabels" id="seatLabels" required>
+
+    <label>Cinema
+      <select name="cinemaId" id="cinemaId" required>
+        <option value="">Select cinema</option>
+        <option th:each="cinema : ${cinemas}"
+                th:value="${cinema.id}"
+                th:text="${cinema.name + ' - ' + cinema.city}"></option>
+      </select>
+    </label>
+
+    <label>Screen
+      <select name="screenId" id="screenId" required>
+        <option value="">Select screen</option>
+        <option th:each="screen : ${screens}"
+                th:value="${screen.id}"
+                th:attr="data-cinema=${screen.cinema.id},data-rows=${screen.rowsCount},data-cols=${screen.colsCount}"
+                th:text="${screen.cinema.name + ' - ' + screen.name}"></option>
+      </select>
+    </label>
+
+    <label>Date
+      <input type="date" name="date" id="showDate" required>
+    </label>
+
+    <label>Time
+      <select name="time" id="showTime" required>
+        <option value="">Select time</option>
+        <option th:each="showtime : ${showtimes}"
+                th:value="${showtime.startAt}"
+                th:attr="data-cinema=${showtime.cinema.id},data-screen=${showtime.screen.id}"
+                th:text="${showtime.startAt + ' - ' + showtime.screen.name}"></option>
+      </select>
+    </label>
+
+    <section>
+      <h2>Seat Selection</h2>
+      <div class="seat-legend">
+        <span class="legend-item"><span class="seat-dot available"></span> Available</span>
+        <span class="legend-item"><span class="seat-dot selected"></span> Selected</span>
+        <span class="legend-item"><span class="seat-dot taken"></span> Taken</span>
+      </div>
+      <div id="screen">SCREEN</div>
+      <div id="seatGrid" class="seat-grid"></div>
+      <p id="selectedSummary">Selected seats: none</p>
+    </section>
+
+    <button class="btn" type="submit">Confirm Reservation</button>
+  </form>
+</main>
+<div th:replace="~{fragments/footer :: siteFooter}"></div>
+<script src="/js/app.js"></script>
+</body>
+</html>
+
+

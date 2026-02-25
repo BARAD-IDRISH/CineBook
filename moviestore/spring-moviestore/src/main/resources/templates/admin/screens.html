@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Admin Screens</title><link rel="stylesheet" href="/css/app.css"></head>
+<body>
+<div th:replace="~{fragments/header :: siteHeader}"></div>
+<main class="container">
+  <h1>Screens</h1>
+  <form method="post" action="/admin/screens" class="form grid-2">
+    <input name="name" placeholder="Screen name (e.g. Screen 1)" required>
+    <input name="rowsCount" type="number" placeholder="Rows" required>
+    <input name="colsCount" type="number" placeholder="Columns" required>
+    <select name="cinemaId" required>
+      <option value="">Cinema</option>
+      <option th:each="c : ${cinemas}" th:value="${c.id}" th:text="${c.name}"></option>
+    </select>
+    <button class="btn" type="submit">Add Screen</button>
+  </form>
+  <table class="table"><thead><tr><th>Cinema</th><th>Screen</th><th>Seats</th><th></th></tr></thead><tbody>
+  <tr th:each="s : ${screens}">
+    <td th:text="${s.cinema.name}"></td>
+    <td th:text="${s.name}"></td>
+    <td th:text="${s.rowsCount + ' x ' + s.colsCount}"></td>
+    <td><form method="post" th:action="@{/admin/screens/{id}/delete(id=${s.id})}"><button class="btn danger" type="submit">Delete</button></form></td>
+  </tr>
+  </tbody></table>
+</main>
+<div th:replace="~{fragments/footer :: siteFooter}"></div>
+</body>
+</html>
